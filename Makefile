@@ -7,3 +7,4 @@ PROJECT_NAME := esp32-tests
 
 include $(IDF_PATH)/make/project.mk
 
+COMPONENT_LDFLAGS += -lstdc++
