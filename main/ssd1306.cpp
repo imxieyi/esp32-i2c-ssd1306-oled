@@ -2,7 +2,7 @@
 
 OLED::OLED(gpio_num_t scl, gpio_num_t sda, ssd1306_panel_type_t type,
 		uint8_t address) {
-	i2c=new I2C(scl, sda);
+	i2c = new I2C(scl, sda);
 	this->type = type;
 	this->address = address;
 
@@ -21,18 +21,18 @@ OLED::OLED(gpio_num_t scl, gpio_num_t sda, ssd1306_panel_type_t type,
 }
 
 OLED::OLED(gpio_num_t scl, gpio_num_t sda, ssd1306_panel_type_t type) {
-	i2c=new I2C(scl, sda);
+	i2c = new I2C(scl, sda);
 	this->type = type;
 	this->address = 0x78;
 
 	switch (type) {
 	case SSD1306_128x64:
-		buffer = (uint8_t*)malloc(1024); // 128 * 64 / 8
+		buffer = (uint8_t*) malloc(1024); // 128 * 64 / 8
 		width = 128;
 		height = 64;
 		break;
 	case SSD1306_128x32:
-		buffer = (uint8_t*)malloc(512);  // 128 * 32 / 8
+		buffer = (uint8_t*) malloc(512);  // 128 * 32 / 8
 		width = 128;
 		height = 32;
 		break;
@@ -67,10 +67,10 @@ bool OLED::init() {
 
 	switch (type) {
 	case SSD1306_128x64:
-		buffer = (uint8_t*)malloc(1024); // 128 * 64 / 8
+		buffer = (uint8_t*) malloc(1024); // 128 * 64 / 8
 		break;
 	case SSD1306_128x32:
-		buffer = (uint8_t*)malloc(512);  // 128 * 32 / 8
+		buffer = (uint8_t*) malloc(512);  // 128 * 32 / 8
 		break;
 	}
 
@@ -605,44 +605,71 @@ uint8_t OLED::draw_char(uint8_t x, uint8_t y, unsigned char c,
 	return (font->char_descriptors[c].width);
 }
 
-uint8_t OLED::draw_string(uint8_t x, uint8_t y, char *str,
+uint8_t OLED::draw_string(uint8_t x, uint8_t y, std::string str,
 		ssd1306_color_t foreground, ssd1306_color_t background) {
 	uint8_t t = x;
 
 	if (font == NULL)
 		return 0;
 
-	if (str == NULL)
+	//	if(str==NULL)
+	//		return 0;
+
+	if (str.empty())
 		return 0;
 
-	while (*str) {
-		x += draw_char(x, y, *str, foreground, background);
-		++str;
-		if (*str)
+	for (std::string::iterator i = str.begin(); i < str.end(); i++) {
+		x += draw_char(x, y, *i, foreground, background);
+		if (*i)
 			x += font->c;
 	}
+
+//	while (*str) {
+//		x += draw_char(x, y, *str, foreground, background);
+//		++str;
+//		if (*str)
+//			x += font->c;
+//	}
 
 	return (x - t);
 }
 
 // return width of string
-uint8_t OLED::measure_string(char *str) {
+uint8_t OLED::measure_string(std::string str) {
 	uint8_t w = 0;
 	unsigned char c;
+
+	if (str.empty())
+		return 0;
+
+//	if(str==NULL)
+//		return 0;
+
 	if (font == NULL)
 		return 0;
 
-	while (*str) {
-		c = *str;
+	for (std::string::iterator i = str.begin(); i < str.end(); i++) {
+		c = *i;
 		// we always have space in the font set
 		if ((c < font->char_start) || (c > font->char_end))
 			c = ' ';
 		c = c - font->char_start;   // c now become index to tables
 		w += font->char_descriptors[c].width;
-		++str;
-		if (*str)
+		if (*i)
 			w += font->c;
 	}
+
+//	while (*str) {
+//		c = *str;
+//		// we always have space in the font set
+//		if ((c < font->char_start) || (c > font->char_end))
+//			c = ' ';
+//		c = c - font->char_start;   // c now become index to tables
+//		w += font->char_descriptors[c].width;
+//		++str;
+//		if (*str)
+//			w += font->c;
+//	}
 	return w;
 }
 
@@ -660,7 +687,7 @@ uint8_t OLED::get_font_c() {
 	return (font->c);
 }
 
-void OLED::invert_display( bool invert) {
+void OLED::invert_display(bool invert) {
 	if (invert)
 		command(address, 0xa7); // SSD1306_INVERTDISPLAY
 	else

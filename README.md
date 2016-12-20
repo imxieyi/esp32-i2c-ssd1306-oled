@@ -12,5 +12,7 @@ Remember to call **refresh** after you draw something new on the screen.
 
 External RESET pin function is not implemented yet.
 
-**NOTICE:** If you want to use pure C method, please turn to branch [pure-c](https://github.com/imxieyi/esp32-i2c-ssd1306-oled/tree/pure-c)
+**NOTICE1:** If you want to use pure C method, please turn to branch [pure-c](https://github.com/imxieyi/esp32-i2c-ssd1306-oled/tree/pure-c)
+
+**NOTICE2:** I'm using C++ style string, if you don't want that, you can uncomment related code blocks in ssd1306.cpp and ssd1306.hpp.
 
