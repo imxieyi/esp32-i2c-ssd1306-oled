@@ -6,6 +6,8 @@ Code modified from [ESP-I2C-OLED](https://github.com/baoshi/ESP-I2C-OLED).
 
 I changed the code style into C++. So you can easily use multiple devices by create different objects. I also changed the hardware i2c driver into a software one. So you can use any two GPIO pins as SDA and SCL.
 
+**IMPORTANT:** If you want to compile it, be sure that you add **"COMPONENT_LDFLAGS += -lstdc++"** in Makefile.
+
 Pay attention that OLED class has two different constructors. One with default I2C address 0x78, but in the other you can set manual address.
 
 Remember to call **refresh** after you draw something new on the screen.
