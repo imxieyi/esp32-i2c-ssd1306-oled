@@ -3,7 +3,7 @@
 # project subdirectory.
 #
 
-PROJECT_NAME := esp32-tests
+PROJECT_NAME := esp32-i2c-ssd1306-oled
 
 include $(IDF_PATH)/make/project.mk
 
