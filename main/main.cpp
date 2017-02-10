@@ -60,7 +60,7 @@ extern "C" {
 #endif
 void app_main() {
 
-//	oled = OLED(GPIO_NUM_19, GPIO_NUM_22, SSD1306_128x64);
+	oled = OLED(GPIO_NUM_19, GPIO_NUM_22, SSD1306_128x64);
 	if (oled.init()) {
 		ESP_LOGI("OLED", "oled inited");
 //		oled.draw_rectangle(10, 30, 20, 20, WHITE);
